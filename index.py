@@ -2,9 +2,9 @@ from openpyxl import load_workbook
 from csv import writer, QUOTE_MINIMAL
 
 file_name = 'vogtland-product-list.xlsx'
-sheet_name = 'Height Adjustable Coil Overs'
+sheet_name = 'Electronic Lowering Systems'
 product_name = sheet_name
-image_url = '/wp-content/uploads/2020/03/RACE-SPRINGS.png'
+image_url = 'https://cartreats.com/wp-content/uploads/2020/03/electronic-lowering-systems1.png'
 
 wb = load_workbook(file_name)
 sheet = wb[sheet_name]
@@ -31,8 +31,8 @@ product_writer.writerow([
     'Categories',
     'Visibility in catalog',
     'Short description',
-    'In stock?',
-    'Allow customer reviews?',
+    'stock_status',
+    'reviews_allowed',
     'Sale price',
     'Regular price',
     'Images'
@@ -56,14 +56,14 @@ for rn in range(sheet.max_row + 1):
         make = v(sheet[f'A{rn}']).strip()
         model = model.strip()
         year = v(sheet[f'C{rn}']).strip()
-        sale_price = v(sheet[f'H{rn}'])
-        regular_price = v(sheet[f'G{rn}'])
+        sale_price = v(sheet[f'E{rn}'])
+        regular_price = v(sheet[f'D{rn}'])
 
         product_writer.writerow([
             'simple',
             f"{product_name} <span style='display: none;'>{make} {model} {year}</span>",
             1,
-            v(sheet[f'A{rn}']),
+            f"V {v(sheet[f'A{rn}'])}",
             'visible',
             f"{make} {model} {year}",
             1,
@@ -75,8 +75,8 @@ for rn in range(sheet.max_row + 1):
 
         product_url = '/product/' + \
             product_name.replace(' ', '-') + \
-            '-' + make.replace(' ', '') + \
-            '-' + model.replace(' ', '') + \
+            '-' + make.replace(' ', '-') + \
+            '-' + model.replace(' ', '-') + \
             '-' + year.replace(' ', '')
 
         query_info_writer.writerow([
